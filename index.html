@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Chatbot SMK GOLDEN</title>
+</head>
+<body>
+
+<h3>🏫 Chatbot SMK GOLDEN</h3>
+<div id="chat"></div>
+
+<input id="msg" placeholder="Tanya tentang sekolah...">
+<button onclick="send()">Kirim</button>
+
+<script>
+function send() {
+  let msg = document.getElementById("msg").value;
+  let chat = document.getElementById("chat");
+
+  chat.innerHTML += "<p><b>Kamu:</b> " + msg + "</p>";
+
+  fetch("/api/chat", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({message: msg})
+  })
+  .then(res => res.json())
+  .then(data => {
+    chat.innerHTML += "<p><b>Admin:</b> " + data.reply + "</p>";
+  });
+
+  document.getElementById("msg").value = "";
+}
+</script>
+
+</body>
+</html>
